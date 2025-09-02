@@ -51,7 +51,7 @@ function upload() {
         await kv.set(`resume-${uuid}`, JSON.stringify(data));
 
         const feedback = await ai.feedback(uploadedFile.path, 
-            prepareInstructions({jobTitle, jobDescription, AIResponseFormat: 'JSON'})
+            prepareInstructions({jobTitle, jobDescription})
         )
 
         if (!feedback) return setResult('Error analyzing the file.');

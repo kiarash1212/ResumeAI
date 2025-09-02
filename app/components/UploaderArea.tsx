@@ -5,7 +5,7 @@ import {formatBytes} from '../utils'
 interface UploaderProps {
     onFileSelect: (file: File) => void
 }
-function UploaderArea({onFileSelect} : UploaderProps | null) {
+function UploaderArea({onFileSelect} : UploaderProps) {
   const [file, setFile] = useState<File | null>(null)
   const onDrop = useCallback((acceptedFiles: File[]) => {
 

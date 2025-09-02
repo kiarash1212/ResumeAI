@@ -5,7 +5,7 @@ import ResumeCard from "~/components/ResumeCard";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { usePuterStore } from "../../lib/puter"; 
-
+import {useState} from 'react';
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "ResumeAI" },
@@ -15,7 +15,8 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
 
-  const {isLoading, auth} = usePuterStore();
+  const [allResumes, setAllResumes] = useState<Resume[]>([]);
+  const {isLoading, auth, kv, fs} = usePuterStore();
 const navigateTo = useNavigate();
 
 useEffect(() => {
@@ -23,6 +24,17 @@ useEffect(() => {
     navigateTo("/auth?next=/");
   }
 }, [auth.isAuthenticated]);
+
+  useEffect(() => {
+    const getAllResumes = async () => {
+      const resumes = (await kv.list('resume-*', true)) as KVItem[];
+
+      if (!resumes) return;
+
+      setAllResumes(resumes.map((resume) => JSON.parse(resume.value)) as Resume[]);
+    }
+    getAllResumes();
+  }, []);
 
   return <main className="bg-[url('/images/bg-main.svg')] bg-cover min-h-screen">
     <Navbar />
@@ -36,7 +48,7 @@ useEffect(() => {
   
   {resumes.length > 0 && (
     <div className="resumes-section mt-8">
-      {resumes.map((resume) => (
+      {allResumes.map((resume) => (
         <ResumeCard resume={resume} key={resume.id} />
       ))}
 

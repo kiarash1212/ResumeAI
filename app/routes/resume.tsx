@@ -3,6 +3,9 @@ import { useParams } from "react-router";
 import { Link } from "react-router";
 import { usePuterStore } from "~/../lib/puter";
 import { useNavigate } from "react-router";
+import Summary from "~/components/Summary";
+import Details from "~/components/Details";
+import ATS from "~/components/ATS";
 
 function resume() {
     const { id } = useParams();
@@ -10,7 +13,7 @@ function resume() {
     const navigateTo = useNavigate();
     const [imageUrl, setImageUrl] = useState('');
     const [resumeUrl, setResumeUrl] = useState('');
-    const [feedback, setFeedback] = useState('');
+    const [feedback, setFeedback] = useState<Feedback | null>(null);
 
     useEffect(() => {
     if (!isLoading && !auth.isAuthenticated) {
@@ -35,7 +38,8 @@ function resume() {
             if (!imageBlob) return;
             const imageUrl = URL.createObjectURL(imageBlob);
             setImageUrl(imageUrl);
-
+            
+            
             setFeedback(data.feedback);
 
         }
@@ -66,8 +70,11 @@ function resume() {
             <section className="feedback-section">
                 <h2 className="font-bold text-4xl !text-black">Resume Feedback</h2>
                 {feedback ? (
-                    <div>
-                        <h3>Summary Ats details</h3>
+                    <div className="flex flex-col gap-4">
+                        <Summary feedback={feedback} />
+                        <ATS score={feedback.overallScore} suggestions={feedback.ATS.tips} />
+                        {/* 
+                        <Details feedback={feedback} /> */}
                     </div>
                 ): (
                     <img src='/images/resume-scan-2.gif' alt='loading' className='w-full' />
