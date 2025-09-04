@@ -1,8 +1,10 @@
-# Welcome to React Router!
+# Welcome to Resume ai!
 
-A modern, production-ready template for building full-stack React applications using React Router.
+An application to help review the resmues in job applications using React and Puter.js.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## Demo
+[Open in Vercel](https://resume-ai-5e96.vercel.app/)
+
 
 ## Features
 
